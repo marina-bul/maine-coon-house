@@ -8,48 +8,119 @@
 
 body {
   margin: 0 auto;
-  max-width: 1366px;
   min-height: 100vh;
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  color: #fff;
-  background-color: #000;
-}
-
-header {
-  position: relative;
-  background-color: #181617;
 }
 
 p {
   color: #bd966a;
-  line-height: 150%;
 }
 
-.slider {
-  height: 684px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+h1 {
+  font-size: 36px;
+  line-height: 40px;
 }
 
-.slider > * {
-  flex-shrink: 0;
+h2 {
+  padding-bottom: 35px;
+  font-size: 28px;
+  line-height: 32px;
 }
 
-.slider-info {
-  margin-left: 200px;
-  width: 300px;
+@media (min-width: 768px), (min-width: 1366px) {
+  h2 {
+    font-size: 32px;
+    line-height: 36px;
+  }
 }
 
-.slider-info h1 {
+.container {
+  margin: 0 auto;
+  min-width: 320px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+}
+
+@media (min-width: 768px), (min-width: 1366px) {
+  .container {
+    width: auto;
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+.main-header {
+  background-color: #181617;
+  background-image: url("./img/main-cat-mobile@1x.png");
+  background-position: right 0 bottom 0;
+  background-repeat: no-repeat;
+}
+
+.logo {
+  text-align: center;
+}
+
+.header__info-wrapper {
+  padding: 0 45px;
+  padding-top: 56px;
+  padding-bottom: 276px;
+  text-align: center;
+}
+
+.header__info-wrapper h1 {
   padding: 20px 0;
-  font-size: 52px;
+}
+
+.header__info {
+  margin: 0 auto;
+  max-width: 234px;
+}
+
+@media (min-width: 768px), (min-width: 1366px) {
+  .header__info {
+    margin: 0;
+    max-width: 300px;
+  }
+
+  .header__info-wrapper {
+    text-align: left;
+  }
+
+  .header__info-wrapper h1 {
+    font-size: 52px;
+    line-height: 56px;
+  }
+}
+
+@media (min-width: 768px) {
+  .main-header {
+    background-image: url("./img/main-cat-tablet@1x.png");
+  }
+
+  .header__info-wrapper {
+    padding-bottom: 117px;
+    padding-right: 400px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .main-header {
+    background-image: url("./img/main-cat-desktop@1x.png");
+  }
+
+  .header__info-wrapper {
+    padding-bottom: 220px;
+    padding-left: 202px;
+    padding-right: 500px;
+  }
 }
 
 .btn-link {
-  margin-top: 50px;
-  padding: 18px 35px;
+  margin-top: 40px;
+  padding: 12px 10px;
   display: inline-block;
   font-size: 14px;
   font-weight: bold;
@@ -62,41 +133,69 @@ p {
   background-color: #bd966a;
 }
 
-.cat-slide {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
+@media (min-width: 768px), (min-width: 1366px) {
+  .btn-link {
+    padding: 18px 15px;
+  }
 }
 
-.cat-slide.hidden {
-  transition: opacity 1s;
-  opacity: 0;
-}
-
-.logo {
-  text-align: center;
-}
-
-.cats {
-  padding: 220px 0;
+.section__cats {
+  padding: 60px 19px 30px;
   background-color: #1f1c1d;
+}
+
+@media (min-width: 768px) {
+  .section__cats {
+    padding: 100px 10px 50px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .section__cats {
+    padding: 223px 141px 50px;
+  }
+}
+
+@media (min-width: 768px), (min-width: 1366px) {
+  .section__cats-description {
+    margin: 0 auto;
+    max-width: 516px;
+  }
+}
+
+.section__cats-category-list {
+  margin: 40px auto;
+  width: 234px;
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.section__cats-category-list li {
+  font-size: 16px;
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.section__cats-category-list li:hover,
+:active {
+  opacity: 1;
+}
+
+@media (min-width: 768px), (min-width: 1366px) {
+  .section__cats-category-list li {
+    font-size: 18px;
+  }
 }
 
 .cats-wrapper {
   margin: 0 auto;
-  width: 1050px;
   text-align: center;
 }
 
 .cats-wrapper > * {
   margin-left: auto;
   margin-right: auto;
-}
-
-.cats h2 {
-  margin-bottom: 15px;
-  font-size: 36px;
 }
 
 .cats-description {
@@ -109,17 +208,6 @@ p {
   display: flex;
   justify-content: space-around;
   list-style: none;
-}
-
-.cats-category li {
-  font-size: 18px;
-  opacity: 0.4;
-  cursor: pointer;
-}
-
-.cats-category li:hover,
-:active {
-  opacity: 1;
 }
 
 .cats-slider-wrapper {
