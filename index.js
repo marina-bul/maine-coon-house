@@ -1,22 +1,24 @@
-const slideItems = document.querySelectorAll(".cat-slide");
-const hiddenSlide = document.querySelector(".hidden");
+// const slideItems = document.querySelectorAll(".cat-slide");
+// const hiddenSlide = document.querySelector(".hidden");
 
-function changeSlide() {
-  slideItems.forEach((slide) => {
-    if (slide.classList.contains("hidden")) {
-      slide.classList.remove("hidden");
-    } else {
-      slide.classList.add("hidden");
-    }
-  });
-}
+// function changeSlide() {
+//   slideItems.forEach((slide) => {
+//     if (slide.classList.contains("hidden")) {
+//       slide.classList.remove("hidden");
+//     } else {
+//       slide.classList.add("hidden");
+//     }
+//   });
+// }
 
-setInterval(changeSlide, 5000);
+// setInterval(changeSlide, 5000);
 
-const sliderButtonBack = document.querySelector(".controls-back");
-const sliderButtonNext = document.querySelector(".controls-next");
-const slider = document.querySelector(".cats-slider");
-const slidesCount = document.querySelectorAll(".cats-slider-item").length;
+const sliderButtonBack = document.querySelector(".section__cats-controls-prev");
+const sliderButtonNext = document.querySelector(".section__cats-controls-next");
+const slider = document.querySelector(".section__cats-main-slider");
+const slidesCount = document.querySelectorAll(
+  ".section__cats-slider-item"
+).length;
 
 let activeSlideIndex = 0;
 
