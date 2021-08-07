@@ -221,10 +221,6 @@ h2 {
 }
 
 @media (min-width: 768px) {
-  .section__cats {
-    padding: 0 20px;
-  }
-
   .section__cats-main-slider {
     height: 550px;
     padding: 0 20px;
