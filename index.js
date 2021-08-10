@@ -1,17 +1,16 @@
-// const slideItems = document.querySelectorAll(".cat-slide");
-// const hiddenSlide = document.querySelector(".hidden");
+const catsNavigationList = document.querySelector(
+  ".section__cats-category-list"
+);
+const catsNavigationItems = document.querySelectorAll(
+  ".section__cats-category-item"
+);
 
-// function changeSlide() {
-//   slideItems.forEach((slide) => {
-//     if (slide.classList.contains("hidden")) {
-//       slide.classList.remove("hidden");
-//     } else {
-//       slide.classList.add("hidden");
-//     }
-//   });
-// }
-
-// setInterval(changeSlide, 5000);
+catsNavigationList.addEventListener("click", (e) => {
+  catsNavigationItems.forEach((item) => {
+    item.classList.remove("category-active");
+  });
+  e.target.classList.add("category-active");
+});
 
 const catImages = [
   "./img/pets-list-1-desktop@1x.png",
@@ -28,8 +27,8 @@ const nextSlideBox = document.querySelector(".section__cats-slider-next");
 const slidesCount = catImages.length - 1;
 
 let currentSlideIndex = 1;
-let prevSlideIndex = currentSlideIndex - 1;
-let nextSlideIndex = currentSlideIndex + 1;
+let prevSlideIndex = 0;
+let nextSlideIndex = 2;
 
 sliderLoad();
 
@@ -50,20 +49,13 @@ function sliderLoad() {
 function changeSlides(direction) {
   switch (direction) {
     case "prev":
-      prevSlideIndex--;
-      currentSlideIndex--;
-      nextSlideIndex--;
+      currentSlideIndex = prevSlideIndex;
+      nextSlideIndex = currentSlideIndex;
 
-      if (prevSlideIndex < 0) {
+      if (prevSlideIndex === 0) {
         prevSlideIndex = slidesCount;
-      }
-
-      if (currentSlideIndex < 0) {
-        currentSlideIndex = slidesCount;
-      }
-
-      if (nextSlideIndex < 0) {
-        nextSlideIndex = slidesCount;
+      } else {
+        prevSlideIndex--;
       }
 
       sliderLoad();
@@ -71,20 +63,13 @@ function changeSlides(direction) {
       break;
 
     case "next":
-      prevSlideIndex++;
-      currentSlideIndex++;
-      nextSlideIndex++;
+      prevSlideIndex = currentSlideIndex;
+      currentSlideIndex = nextSlideIndex;
 
-      if (nextSlideIndex > slidesCount) {
+      if (nextSlideIndex >= slidesCount) {
         nextSlideIndex = 0;
-      }
-
-      if (currentSlideIndex > slidesCount) {
-        currentSlideIndex = 0;
-      }
-
-      if (prevSlideIndex > slidesCount) {
-        prevSlideIndex = 0;
+      } else {
+        nextSlideIndex++;
       }
 
       sliderLoad();
@@ -92,6 +77,49 @@ function changeSlides(direction) {
       break;
   }
 }
+
+sliderButtonBack.addEventListener("click", () => changeSlides("prev"));
+sliderButtonNext.addEventListener("click", () => changeSlides("next"));
+
+const reviewsSlider = document.querySelector(".reviews__main-slider");
+const reviewsSliderPrevButton = document.querySelector(
+  ".reviews-controls-prev"
+);
+const reviewsSliderNextButton = document.querySelector(
+  ".reviews-controls-next"
+);
+
+const reviewsSlidesCount =
+  document.querySelectorAll(".reviews__item").length - 1;
+
+let activeSlideIndex = 0;
+
+function changeReviewsSlides(direction) {
+  switch (direction) {
+    case "prev":
+      activeSlideIndex--;
+      if (activeSlideIndex < 0) {
+        activeSlideIndex = reviewsSlidesCount;
+      }
+      break;
+    case "next":
+      activeSlideIndex++;
+      if (activeSlideIndex > reviewsSlidesCount) {
+        activeSlideIndex = 0;
+      }
+      break;
+  }
+
+  const width = reviewsSlider.offsetWidth;
+  reviewsSlider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
+}
+
+reviewsSliderPrevButton.addEventListener("click", () =>
+  changeReviewsSlides("prev")
+);
+reviewsSliderNextButton.addEventListener("click", () =>
+  changeReviewsSlides("next")
+);
 
 // window.addEventListener(
 //   `resize`,
@@ -134,6 +162,3 @@ function changeSlides(direction) {
 //     slider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
 //   });
 // };
-
-sliderButtonBack.addEventListener("click", () => changeSlides("prev"));
-sliderButtonNext.addEventListener("click", () => changeSlides("next"));
