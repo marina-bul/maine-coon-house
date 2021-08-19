@@ -410,6 +410,7 @@ h2 {
 
 .review__content {
   padding: 118px 42px 40px;
+  height: 358px;
   background-color: #000000;
 }
 
@@ -428,12 +429,14 @@ h2 {
 
 .review__content p {
   padding: 25px 0;
+  height: 130px;
   color: #fff;
   opacity: 0.7;
+  overflow: scroll;
 }
 
 .review-footer {
-  margin: 0 14px;
+  margin: 10px 14px;
   display: flex;
   justify-content: space-between;
 }
@@ -489,7 +492,7 @@ h2 {
   }
 
   .review-footer {
-    margin: 0 128px;
+    margin: 10px 128px;
   }
 
   .reviews-controls-prev,
@@ -525,12 +528,102 @@ h2 {
   }
 
   .review-footer {
-    margin: 0;
+    margin: 10px 0;
     margin-right: 147px;
   }
 
   .reviews-controls-prev,
   .reviews-controls-next {
     top: 200px;
+  }
+}
+
+footer {
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #000;
+}
+
+footer div {
+  margin-bottom: 20px;
+}
+
+.contacts {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.socials {
+  padding: 0 118px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.socials svg {
+  width: 22px;
+  height: 16px;
+  fill: #bd966a;
+}
+
+.socials svg:hover {
+  fill: #fff;
+}
+
+footer .logo {
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  footer {
+    padding: 40px 54px;
+    flex-direction: row-reverse;
+  }
+
+  footer div {
+    margin-bottom: 0;
+  }
+
+  .contacts {
+    width: 500px;
+    flex-direction: row;
+  }
+
+  .socials {
+    padding: 0;
+    width: 60px;
+  }
+
+  footer .logo {
+    display: none;
+  }
+}
+
+@media (min-width: 1366px) {
+  footer {
+    padding: 40px 274px;
+    flex-direction: row-reverse;
+  }
+
+  footer div {
+    margin-bottom: 0;
+  }
+
+  .contacts {
+    width: 500px;
+    flex-direction: row;
+  }
+
+  .socials {
+    padding: 0;
+    width: 60px;
+  }
+
+  footer .logo {
+    display: block;
   }
 }

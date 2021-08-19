@@ -10,13 +10,46 @@ catsNavigationList.addEventListener("click", (e) => {
     item.classList.remove("category-active");
   });
   e.target.classList.add("category-active");
+  getCatsData(e.target.dataset.category);
 });
 
-const catImages = [
-  "./img/pets-list-1-desktop@1x.png",
-  "./img/pets-list-2-desktop@1x.png",
-  "./img/pets-list-3-desktop@1x.png",
-];
+const getData = async () => {
+  const data = await fetch("./mainCoonDB.json");
+  if (data.ok) {
+    return data.json();
+  } else {
+    throw new Error(
+      `Данные не были получены, ошибка ${data.status} ${data.statusText}`
+    );
+  }
+};
+
+const getReviews = () => {
+  getData().then((data) => {
+    const reviews = data.reviews;
+    renderReviews(reviews);
+  });
+};
+
+let slides;
+
+const getCatsData = (category) => {
+  getData().then((data) => {
+    if (category) {
+      const filteredData = data.cats.filter(
+        (item) => item.category === category
+      );
+      slides = filteredData;
+    } else {
+      slides = data.cats;
+    }
+
+    sliderLoad();
+  });
+};
+
+getCatsData("male");
+getReviews();
 
 const mainSliderBox = document.querySelector(".section__cats-main-slider");
 const sliderButtonBack = document.querySelector(".section__cats-controls-prev");
@@ -24,29 +57,28 @@ const sliderButtonNext = document.querySelector(".section__cats-controls-next");
 const prevSlideBox = document.querySelector(".section__cats-slider-prev");
 const currentSlideBox = document.querySelector(".section__cats-slider-main");
 const nextSlideBox = document.querySelector(".section__cats-slider-next");
-const slidesCount = catImages.length - 1;
 
 let currentSlideIndex = 1;
 let prevSlideIndex = 0;
 let nextSlideIndex = 2;
 
-sliderLoad();
-
 function sliderLoad() {
   prevSlideBox.innerHTML = `
-    <img src="${catImages[prevSlideIndex]}" alt="карточка кота">
+    <img src="${slides[prevSlideIndex].img}" alt="карточка кота">
   `;
 
   currentSlideBox.innerHTML = `
-    <img src="${catImages[currentSlideIndex]}" alt="карточка кота">
+    <img src="${slides[currentSlideIndex].img}" alt="карточка кота">
   `;
 
   nextSlideBox.innerHTML = `
-    <img src="${catImages[nextSlideIndex]}" alt="карточка кота">
+    <img src="${slides[nextSlideIndex].img}" alt="карточка кота">
   `;
 }
 
 function changeSlides(direction) {
+  const slidesCount = slides.length - 1;
+
   switch (direction) {
     case "prev":
       currentSlideIndex = prevSlideIndex;
@@ -78,6 +110,18 @@ function changeSlides(direction) {
   }
 }
 
+window.addEventListener(
+  `resize`,
+  (event) => {
+    currentSlideIndex = 1;
+    prevSlideIndex = 0;
+    nextSlideIndex = 2;
+
+    sliderLoad();
+  },
+  false
+);
+
 sliderButtonBack.addEventListener("click", () => changeSlides("prev"));
 sliderButtonNext.addEventListener("click", () => changeSlides("next"));
 
@@ -89,10 +133,39 @@ const reviewsSliderNextButton = document.querySelector(
   ".reviews-controls-next"
 );
 
-const reviewsSlidesCount =
-  document.querySelectorAll(".reviews__item").length - 1;
-
+let reviewsSlidesCount;
 let activeSlideIndex = 0;
+
+function renderReviews(reviews) {
+  reviews.forEach((item) => {
+    const reviewHTML = `
+      <li class="reviews__item">
+        <img src=${
+          item.photo ? item.photo : "./img/reviewer-unname-2.jpg"
+        } alt="фото автора">
+        <div class="review__content">
+          <h3>${item.author}</h3>
+          <p>${item.text}</p>
+          <div class="review-footer">
+            <time datetime="2018-05-24">${item.date}</time>
+            <div class="review__social-links">
+              <svg class="social__icon reviews__icon reviews__icon--tw" width="17" height="12">
+                <use xlink:href="#icon-tw" x="0" y="0"></use>
+              </svg>
+              <svg class="social__icon reviews__icon reviews__icon--vk" width="13" height="8">
+                <use xlink:href="#icon-vk" x="0" y="0"></use>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </li>
+    `;
+
+    reviewsSlider.insertAdjacentHTML("beforeend", reviewHTML);
+  });
+
+  reviewsSlidesCount = document.querySelectorAll(".reviews__item").length - 1;
+}
 
 function changeReviewsSlides(direction) {
   switch (direction) {
@@ -120,45 +193,3 @@ reviewsSliderPrevButton.addEventListener("click", () =>
 reviewsSliderNextButton.addEventListener("click", () =>
   changeReviewsSlides("next")
 );
-
-// window.addEventListener(
-//   `resize`,
-//   (event) => {
-//     width = slider.offsetWidth;
-//     slider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
-//   },
-//   false
-// );
-
-// slider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
-
-// const changeSlidesToPrev = () => {
-//   slider.style.transition = "transform 1s ease-in-out";
-//   activeSlideIndex--;
-//   if (activeSlideIndex < 0) {
-//     activeSlideIndex = slidesCount - 1;
-//   }
-//   slider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
-// };
-
-// const changeSlidesToNext = () => {
-//   slider.style.transition = "transform 1s ease-in-out";
-//   activeSlideIndex++;
-//   if (activeSlideIndex > slidesCount - 1) {
-//     activeSlideIndex = 0;
-//   }
-//   slider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
-// };
-
-// const jump = () => {
-//   slider.addEventListener("transitionend", () => {
-//     activeSlideIndex == 0
-//       ? (activeSlideIndex = slidesCount - 1)
-//       : activeSlideIndex;
-//     activeSlideIndex == slidesCount - 1
-//       ? (activeSlideIndex = 0)
-//       : activeSlideIndex;
-//     slider.style.transition = "none";
-//     slider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
-//   });
-// };
