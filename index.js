@@ -1,3 +1,16 @@
+const getData = async () => {
+  const data = await fetch("./mainCoonDB.json");
+  if (data.ok) {
+    return data.json();
+  } else {
+    throw new Error(
+      `Данные не были получены, ошибка ${data.status} ${data.statusText}`
+    );
+  }
+};
+
+// Раздел Питомцы
+
 const catsNavigationList = document.querySelector(
   ".section__cats-category-list"
 );
@@ -13,27 +26,25 @@ catsNavigationList.addEventListener("click", (e) => {
   getCatsData(e.target.dataset.category);
 });
 
-const getData = async () => {
-  const data = await fetch("./mainCoonDB.json");
-  if (data.ok) {
-    return data.json();
-  } else {
-    throw new Error(
-      `Данные не были получены, ошибка ${data.status} ${data.statusText}`
-    );
-  }
-};
+const mainSliderBox = document.querySelector(".section__cats-main-slider");
+const sliderButtonBack = document.querySelector(".section__cats-controls-prev");
+const sliderButtonNext = document.querySelector(".section__cats-controls-next");
+const prevSlideBox = document.querySelector(".section__cats-slider-prev");
+const currentSlideBox = document.querySelector(".section__cats-slider-main");
+const nextSlideBox = document.querySelector(".section__cats-slider-next");
 
-const getReviews = () => {
-  getData().then((data) => {
-    const reviews = data.reviews;
-    renderReviews(reviews);
-  });
-};
+let currentSlideIndex = 1;
+let prevSlideIndex = 0;
+let nextSlideIndex = 2;
 
 let slides;
 
-const getCatsData = (category) => {
+getCatsData("male");
+
+sliderButtonBack.addEventListener("click", () => changeSlides("prev"));
+sliderButtonNext.addEventListener("click", () => changeSlides("next"));
+
+function getCatsData(category) {
   getData().then((data) => {
     if (category) {
       const filteredData = data.cats.filter(
@@ -46,21 +57,7 @@ const getCatsData = (category) => {
 
     sliderLoad();
   });
-};
-
-getCatsData("male");
-getReviews();
-
-const mainSliderBox = document.querySelector(".section__cats-main-slider");
-const sliderButtonBack = document.querySelector(".section__cats-controls-prev");
-const sliderButtonNext = document.querySelector(".section__cats-controls-next");
-const prevSlideBox = document.querySelector(".section__cats-slider-prev");
-const currentSlideBox = document.querySelector(".section__cats-slider-main");
-const nextSlideBox = document.querySelector(".section__cats-slider-next");
-
-let currentSlideIndex = 1;
-let prevSlideIndex = 0;
-let nextSlideIndex = 2;
+}
 
 function sliderLoad() {
   prevSlideBox.innerHTML = `
@@ -110,6 +107,8 @@ function changeSlides(direction) {
   }
 }
 
+// Расстановка слайдов на нужные места при экране 1366px
+
 window.addEventListener(
   `resize`,
   (event) => {
@@ -122,8 +121,7 @@ window.addEventListener(
   false
 );
 
-sliderButtonBack.addEventListener("click", () => changeSlides("prev"));
-sliderButtonNext.addEventListener("click", () => changeSlides("next"));
+// Раздел Отзывы
 
 const reviewsSlider = document.querySelector(".reviews__main-slider");
 const reviewsSliderPrevButton = document.querySelector(
@@ -135,6 +133,22 @@ const reviewsSliderNextButton = document.querySelector(
 
 let reviewsSlidesCount;
 let activeSlideIndex = 0;
+
+getReviews();
+
+reviewsSliderPrevButton.addEventListener("click", () =>
+  changeReviewsSlides("prev")
+);
+reviewsSliderNextButton.addEventListener("click", () =>
+  changeReviewsSlides("next")
+);
+
+function getReviews() {
+  getData().then((data) => {
+    const reviews = data.reviews;
+    renderReviews(reviews);
+  });
+}
 
 function renderReviews(reviews) {
   reviews.forEach((item) => {
@@ -187,9 +201,23 @@ function changeReviewsSlides(direction) {
   reviewsSlider.style.transform = `translateX(-${width * activeSlideIndex}px)`;
 }
 
-reviewsSliderPrevButton.addEventListener("click", () =>
-  changeReviewsSlides("prev")
-);
-reviewsSliderNextButton.addEventListener("click", () =>
-  changeReviewsSlides("next")
-);
+const reviewModal = document.querySelector(".modal-wrapper");
+const reviewForm = document.querySelector(".new-review");
+const createNewReviewBtn = document.querySelector(".create-new-review");
+const reviewModalCloseBtn = document.querySelector(".modal-close-btn");
+
+const inputFirstName = document.querySelector(".first-name");
+const inputLastName = document.querySelector(".last-name");
+const inputReviewText = document.querySelector(".review-text");
+
+createNewReviewBtn.addEventListener("click", () => {
+  reviewModal.classList.remove("modal-hidden");
+});
+
+reviewModalCloseBtn.addEventListener("click", () => {
+  reviewModal.classList.add("modal-hidden");
+});
+
+reviewForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+});
