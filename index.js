@@ -226,7 +226,7 @@ async function sendReviewForm(e) {
   e.preventDefault();
   reviewForm.classList.add("_sending");
   let newReviewData = new FormData(reviewForm);
-  let response = await fetch("sendmail.php", {
+  let response = await fetch("./sendmail.php", {
     method: "POST",
     body: newReviewData,
   });
