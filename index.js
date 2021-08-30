@@ -225,21 +225,19 @@ reviewForm.addEventListener("submit", sendReviewForm);
 async function sendReviewForm(e) {
   e.preventDefault();
   reviewForm.classList.add("_sending");
-  setInterval(() => {
+  let newReviewData = new FormData(reviewForm);
+  let response = await fetch("sendmail.php", {
+    method: "POST",
+    body: newReviewData,
+  });
+
+  if (response.ok) {
+    let result = await response.json();
+    alert(result.message);
     reviewForm.classList.remove("_sending");
     reviewForm.innerHTML = `<h2>Благодарим за отзыв!</h2>`;
-  }, 4000);
-  // let newReviewData = new FormData(reviewForm);
-  // let response = await fetch("sendmail.php", {
-  //   method: "POST",
-  //   body: newReviewData,
-  // });
-
-  // if (response.ok) {
-  //   let result = await response.json();
-  //   alert(result.message);
-  //   reviewForm.innerHTML = `<h2>Благодарим за отзыв!</h2>`;
-  // } else {
-  //   alert("Ошибка");
-  // }
+  } else {
+    reviewForm.classList.remove("_sending");
+    alert("Ошибка");
+  }
 }
