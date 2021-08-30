@@ -131,6 +131,7 @@ const reviewsSliderNextButton = document.querySelector(
   ".reviews-controls-next"
 );
 
+let reviews;
 let reviewsSlidesCount;
 let activeSlideIndex = 0;
 
@@ -145,12 +146,13 @@ reviewsSliderNextButton.addEventListener("click", () =>
 
 function getReviews() {
   getData().then((data) => {
-    const reviews = data.reviews;
+    reviews = data.reviews;
     renderReviews(reviews);
   });
 }
 
 function renderReviews(reviews) {
+  reviewsSlider.textContent = "";
   reviews.forEach((item) => {
     const reviewHTML = `
       <li class="reviews__item">
@@ -218,6 +220,26 @@ reviewModalCloseBtn.addEventListener("click", () => {
   reviewModal.classList.add("modal-hidden");
 });
 
-reviewForm.addEventListener("submit", (e) => {
+reviewForm.addEventListener("submit", sendReviewForm);
+
+async function sendReviewForm(e) {
   e.preventDefault();
-});
+  reviewForm.classList.add("_sending");
+  setInterval(() => {
+    reviewForm.classList.remove("_sending");
+    reviewForm.innerHTML = `<h2>Благодарим за отзыв!</h2>`;
+  }, 4000);
+  // let newReviewData = new FormData(reviewForm);
+  // let response = await fetch("sendmail.php", {
+  //   method: "POST",
+  //   body: newReviewData,
+  // });
+
+  // if (response.ok) {
+  //   let result = await response.json();
+  //   alert(result.message);
+  //   reviewForm.innerHTML = `<h2>Благодарим за отзыв!</h2>`;
+  // } else {
+  //   alert("Ошибка");
+  // }
+}
