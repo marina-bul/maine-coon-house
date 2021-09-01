@@ -149,6 +149,36 @@ async function getReviews() {
   renderReviews(reviews);
 }
 
+function formatDate(date) {
+  debugger;
+  const months = {
+    1: "января",
+    2: "февраля",
+    3: "марта",
+    4: "апреля",
+    5: "мая",
+    6: "июня",
+    7: "июля",
+    8: "августа",
+    9: "сентября",
+    10: "октября",
+    11: "ноября",
+    12: "декабря",
+  };
+  const dateArr = date.split("-").reverse();
+  const formatMonth = () => {
+    if (dateArr[1].length === 2 && dateArr[1] < 10) {
+      return dateArr[1].substr(1);
+    } else {
+      return dateArr[1];
+    }
+  };
+  const month = months[formatMonth()];
+  const dateStr = `${dateArr[0]} ${month} ${dateArr[2]}`;
+
+  return dateStr;
+}
+
 function renderReviews(reviews) {
   reviewsSlider.textContent = "";
   reviews.forEach((item) => {
@@ -161,7 +191,7 @@ function renderReviews(reviews) {
           <h3>${item.author}</h3>
           <p>${item.text}</p>
           <div class="review-footer">
-            <time datetime="2018-05-24">${item.date}</time>
+            <time datetime="${item.date}">${formatDate(item.date)}</time>
             <div class="review__social-links">
               <svg class="social__icon reviews__icon reviews__icon--tw" width="17" height="12">
                 <use xlink:href="#icon-tw" x="0" y="0"></use>
@@ -218,27 +248,24 @@ reviewModalCloseBtn.addEventListener("click", () => {
   reviewModal.classList.add("modal-hidden");
 });
 
-// reviewForm.addEventListener("submit", sendReviewForm);
+reviewForm.addEventListener("submit", sendReviewForm);
 
-// async function sendReviewForm(e) {
-//   e.preventDefault();
-//   reviewForm.classList.add("_sending");
-//   let newReviewData = new FormData(reviewForm);
-//   let response = await fetch("./sendmail.php", {
-//     method: "POST",
-//     body: newReviewData,
-//   });
-
-//   if (response.ok) {
-//     let result = await response.json();
-//     alert(result.message);
-//     reviewForm.classList.remove("_sending");
-//     reviewForm.innerHTML = `<h2>Благодарим за отзыв!</h2>`;
-//   } else {
-//     reviewForm.classList.remove("_sending");
-//     alert("Ошибка");
-//   }
-// }
+async function sendReviewForm(e) {
+  e.preventDefault();
+  reviewForm.classList.add("_sending");
+  const newReview = {
+    author:
+      reviewForm.elements.firstName.value +
+      " " +
+      reviewForm.elements.lastName.value,
+    text: reviewForm.elements.reviewText.value,
+  };
+  const responseReview = await sendRequest("/app/reviews", "POST", newReview);
+  reviewForm.classList.remove("_sending");
+  reviewForm.innerHTML = `<h2>Благодарим за отзыв!</h2>`;
+  reviews.push(responseReview);
+  renderReviews(reviews);
+}
 
 async function sendRequest(url, method = "GET", data = null) {
   try {
