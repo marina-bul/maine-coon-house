@@ -58,4 +58,4 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "index.html"));
 });
 
-app.listen("5000", () => console.log("Server has been running..."));
+app.listen("3000", () => console.log("Server has been running..."));
