@@ -504,11 +504,11 @@ h2 {
 
 @media (min-width: 1366px) {
   .reviews {
-    padding: 30px 146px;
+    padding: 30px 70px;
   }
 
   .reviews__list {
-    width: calc(100% - 280px);
+    width: calc(100% - 140px);
   }
 
   .reviews__item {
@@ -521,6 +521,20 @@ h2 {
     padding: 109px 87px 109px 145px;
     max-width: 700px;
     text-align: left;
+  }
+
+  .review__content p::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .review__content p::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px #bd966ad3;
+    border-radius: 10px;
+  }
+
+  .review__content p::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #bd966ad8;
   }
 
   .reviews__item img {
@@ -647,8 +661,8 @@ footer .logo {
 
 .new-review-modal {
   position: relative;
-  padding: 30px 20px;
-  width: 80%;
+  padding: 30px;
+  width: 60%;
   background-color: #000;
 }
 
@@ -671,7 +685,7 @@ footer .logo {
   position: relative;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(autofit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .new-review .row .col {
@@ -693,7 +707,7 @@ footer .logo {
 .new-review .row .inputBox input,
 .new-review .row .inputBox textarea {
   position: absolute;
-  width: 80%;
+  width: 100%;
   height: 100%;
   padding: 0 10px;
   font-size: 16px;
@@ -729,7 +743,7 @@ footer .logo {
 .new-review .row .inputBox .line {
   position: absolute;
   bottom: 0;
-  width: 80%;
+  width: 100%;
   height: 2px;
   display: block;
   background: #bd966a;

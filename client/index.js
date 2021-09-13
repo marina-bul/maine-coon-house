@@ -150,7 +150,6 @@ async function getReviews() {
 }
 
 function formatDate(date) {
-  debugger;
   const months = {
     1: "января",
     2: "февраля",
